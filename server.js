@@ -43,24 +43,25 @@ var path = require('path');
 
 fs.readFile("config.json", "utf8", function(error,data){ 
     copyright=JSON.parse(data).copyright;
-
-    console.log(copyright);
-
-
 	mkdirp('testFolder', function(err) { 
 
 
 var files   = [];
 var walker  = walk.walk(testFolder, { followLinks: false });
 walker.on('file', function(root, stat, next) {
-	console.log(stat);
-    next();
+	
+	if(stat.name.indexOf(".txt")>0){
+		console.log(stat.name);
+		console.log(root+ '\\' + stat.name);
+		console.log(process.argv[2]+'\\'+'newLog.log');
+		fs.createReadStream(root+ '\\' + stat.name).pipe(fs.createWriteStream('testFolder'+'\\'+stat.name));
+	}   
+	next();
 });
 walker.on('end', function() {
-    console.log(files);
+    
 });
-	});
-
+});
 });
 
 
