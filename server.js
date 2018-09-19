@@ -51,9 +51,7 @@ var walker  = walk.walk(testFolder, { followLinks: false });
 walker.on('file', function(root, stat, next) {
 	
 	if(stat.name.indexOf(".txt")>0){
-		console.log(stat.name);
-		console.log(root+ '\\' + stat.name);
-		console.log(process.argv[2]+'\\'+'newLog.log');
+	
 		fs.createReadStream(root+ '\\' + stat.name).pipe(fs.createWriteStream('testFolder'+'\\'+stat.name));
 	}   
 	next();
