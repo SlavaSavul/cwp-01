@@ -14,11 +14,11 @@ function my() {
 console.log(my());*/
 
 ////////////5.2//////////////////////////
-var mkdirp = require('mkdirp');
-var walk    = require('walk');
+
+
 var path = require('path');
 var fs = require("fs");
-var new_dir;
+var newDir;
 var copyright;
 var dir_path=process.argv[2];
 var testFolder = process.argv[2];
@@ -42,15 +42,14 @@ walker.on('end', function() {\
 
 
 
-doTask();
+Go();
 
-
-
-function doTask(){
-	  new_dir = `${process.argv[2]}/${path.basename(process.argv[2])}`;
-	  //console.log(new_dir);
+function Go(){
+	  newDir = `${process.argv[2]}/${path.basename(process.argv[2])}`;
+	 //console.log(newDir);
 	  fs.readFile("config.json", "utf8", readCopyright);
 	  copy(createFolder());
+      watch();
 }
 
 function readCopyright(error,data){ 
@@ -59,9 +58,9 @@ function readCopyright(error,data){
 
 
 function createFolder() {
-    fs.exists(new_dir, function (exists) {
+    fs.exists(newDir, function (exists) {
         if (!exists) {
-            fs.mkdir(new_dir, (err) => {
+            fs.mkdir(newDir, (err) => {
                 if (err) {
                     console.log(err);
                 }
@@ -90,7 +89,7 @@ function createNewFile(file_path){
         if(err){
             console.log(err);
         }else{
-            fs.appendFile(new_dir+'/'+file_path, copyright+data+copyright, 'utf8', (err)=> {
+            fs.appendFile(newDir+'/'+file_path, copyright+data+copyright, 'utf8', (err)=> {
                 if(err) {
                   console.log(err);
                  }
@@ -100,14 +99,13 @@ function createNewFile(file_path){
 }
 
 //////////////////////////////////////////
-function watchChanges() {
-    fs.watch(new_dir, (eventType, filename) => {
-        console.log(`event type is: ${eventType}`);
+
+function watch() {
+    fs.watch(newDir, (eventType, filename) => {
+        console.log(`Event: ${eventType}`);
         if (filename) {
-            console.log(`filename provided: ${filename.toString()}`);
-        } else {
-            console.log('filename not provided');
-        }
+            console.log(`Filename: ${filename.toString()}`);
+        } 
     });
 }
 
