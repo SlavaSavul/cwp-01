@@ -3,7 +3,7 @@
 const name = process.argv[2];
 console.log(`Hi ${name}!`);
 
-function my() {
+function write() {
     let str = "";
     for (let i = 2; i < process.argv.length; i++) {
         str += process.argv[i] + " ";
@@ -11,7 +11,8 @@ function my() {
     return str;
 }
 
-console.log(my());*/
+console.log(write());
+*/
 
 ////////////5.2//////////////////////////
 
@@ -20,8 +21,8 @@ var path = require('path');
 var fs = require("fs");
 var newDir;
 var copyright;
-var dir_path=process.argv[2];
-var testFolder = process.argv[2];
+var dirPath=process.argv[2];
+var folder = process.argv[2];
 
 
 
@@ -30,9 +31,9 @@ fs.writeFileSync("summary.js", "\
 var walk    = require('walk');\
 var files   = [];\
 var path = require('path');\
-var walker  = walk.walk(\""+testFolder+"\", { followLinks: false });\
+var walker  = walk.walk(\""+folder+"\", { followLinks: false });\
 walker.on('file', function(root, stat, next) {\
-    files.push(root.replace(\""+testFolder+"\",'') + '/' + stat.name);\
+    files.push(root.replace(\""+folder+"\",'') + '/' + stat.name);\
     next();\
 });\
 walker.on('end', function() {\
@@ -70,26 +71,28 @@ function createFolder() {
 }
 
 function copy(){
-    fs.readdir(dir_path, function (err, items) {
+    fs.readdir(dirPath, function (err, items) {
         if(err){
             console.log(err);
-        }else{
+        }
+        else{
             for(let i = 0; i<items.length; i++){
-                let file_name = items[i].toString();
-                if(/.*\.txt/.test(file_name)){
-                    createNewFile(file_name);
+                let fileName = items[i].toString();
+                if(/.*\.txt/.test(fileName)){
+                    createNewFile(fileName);
                 }
             }
         }
     })
 }
 
-function createNewFile(file_path){
-    fs.readFile(dir_path+'/'+file_path, 'utf8', (err, data)=> {
+function createNewFile(filePath){
+    fs.readFile(dirPath+'/'+filePath, 'utf8', (err, data)=> {
         if(err){
             console.log(err);
-        }else{
-            fs.appendFile(newDir+'/'+file_path, copyright+data+copyright, 'utf8', (err)=> {
+        }
+        else{
+            fs.appendFile(newDir+'/'+filePath, copyright+data+copyright, 'utf8', (err)=> {
                 if(err) {
                   console.log(err);
                  }
